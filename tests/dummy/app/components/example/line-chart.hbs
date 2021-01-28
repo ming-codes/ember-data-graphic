@@ -1,0 +1,62 @@
+{{#docs-demo as |demo|}}
+  {{#demo.example name="data-graphic-lines-demo.hbs"}}
+    Rendering {{this.data.length}} series over {{get this "data.0.length"}} data points
+
+    <DataGraphic::Frame as |Frame|>
+      {{#let 80 40 40 15 250 as |paddingLeft paddingTop paddingBottom paddingRight duration|}}
+        {{#let (scale "time" this.domain (array paddingLeft (sub Frame.WIDTH paddingRight))) (scale "linear" this.range (array (sub Frame.HEIGHT paddingBottom) paddingTop) nice=5) as |xScale yScale|}}
+          {{#let (compute this.line xScale yScale) (compute xScale.tickFormat) as |line format|}}
+            <Frame.Layer @renderer="2d" as |SVG|>
+              <SVG.Mark
+                @type="path"
+                @key="@identity"
+                @data={{this.data}}
+                @d={{line}}
+                @stroke="steelblue"
+                @fill="transparent"
+                @opacity="1"
+              />
+            </Frame.Layer>
+
+            <Frame.Layer @renderer="svg" as |SVG|>
+              <SVG.Axis
+                @orient="bottom"
+                @scale={{xScale}}
+                @tickFormat={{format}}
+                @fontSize={{20}}
+                @transform={{template "translate(0 {0})" (sub Frame.HEIGHT paddingBottom)}}
+              />
+
+              <SVG.Axis
+                @orient="left"
+                @scale={{yScale}}
+                @tickSizeOuter={{0}}
+                @fontSize={{20}}
+                @transform={{template "translate({0} 0)" paddingLeft}}
+              />
+            </Frame.Layer>
+
+            <Frame.Layer @renderer="svg" as |SVG|>
+              {{#if Frame.HOVER}}
+                <SVG.Mark
+                  @type="line"
+                  @data={{array 0}}
+                  @key="@index"
+                  @stroke="red"
+                  @x1="0"
+                  @x2={{Frame.WIDTH}}
+                  @y1={{Frame.HOVER.Y}}
+                  @y2={{Frame.HOVER.Y}}
+                />
+              {{/if}}
+            </Frame.Layer>
+          {{/let}}
+        {{/let}}
+      {{/let}}
+    </DataGraphic::Frame>
+  {{/demo.example}}
+
+  {{demo.snippet "data-graphic-lines-demo.hbs" label="template.hbs" language="hbs"}}
+
+  {{demo.snippet "data-graphic-lines-controller.js" label="controller.js" language="js" }}
+{{/docs-demo}}

@@ -1,0 +1,2 @@
+{{page-title "ParallelCoordinates"}}
+{{outlet}}

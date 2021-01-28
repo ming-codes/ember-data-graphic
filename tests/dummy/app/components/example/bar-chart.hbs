@@ -1,0 +1,82 @@
+{{#docs-demo as |demo|}}
+  {{#demo.example name="data-graphic-bars-demo.hbs"}}
+    <a href="#" {{on "click" this.onBarsDataSort}}>sort</a>
+    <a href="#" {{on "click" this.onBarsDataPop}}>pop</a>
+    <a href="#" {{on "click" this.onBarsDataPush}}>push</a>
+
+    <DataGraphic::Frame as |Frame|>
+      {{#let 80 40 40 5 250 as |paddingLeft paddingTop paddingBottom paddingRight duration|}}
+        {{#let (scale "point" this.barsDataSortedDomain (array paddingLeft (sub Frame.WIDTH paddingRight)) padding=2) (scale "linear" this.barsDataExtent (array (sub Frame.HEIGHT paddingBottom) paddingTop) nice=5) as |xScale yScale|}}
+          <Frame.Layer @renderer="2d" as |SVG|>
+            <SVG.Mark
+              @type="rect"
+              @key="category"
+              @data={{this.barsDataSorted}}
+              @duration={{duration}}
+              @cx={{compose (field "category") xScale}}
+              @y1={{sub Frame.HEIGHT paddingBottom}}
+              @y2={{compose (field "amount") yScale}}
+              @width="40"
+              @fill={{field "fill"}}
+              @opacity="1"
+              @onClick={{unbound this.onBarClick}}
+              @onEnter={{hash
+                y=(sub Frame.HEIGHT paddingBottom)
+                height=0
+                opacity=0.0001
+              }}
+              @onExit={{hash
+                y=(sub Frame.HEIGHT paddingBottom)
+                height=0
+                opacity=0.0001
+              }}
+            />
+
+            <SVG.Mark
+              @type="text"
+              @key="category"
+              @data={{this.barsDataSorted}}
+              @duration={{duration}}
+              @fill="currentColor"
+              @textContent={{compose (field "amount") (format "~")}}
+              @textAnchor="middle"
+              @dy="-12"
+              @opacity="1"
+              @x={{compose (field "category") xScale}}
+              @y={{compose (field "amount") yScale}}
+              @onEnter={{hash
+                y=(sub Frame.HEIGHT paddingBottom)
+                opacity=0.0001
+              }}
+              @onExit={{hash
+                y=(sub Frame.HEIGHT paddingBottom)
+                opacity=0.0001
+              }}
+            />
+          </Frame.Layer>
+
+          <Frame.Layer @renderer="svg" as |SVG|>
+            <SVG.Axis
+              @orient="bottom"
+              @scale={{xScale}}
+              @duration={{duration}}
+              @transform={{template "translate(0 {0})" (sub Frame.HEIGHT paddingBottom)}}
+            />
+
+            <SVG.Axis
+              @orient="left"
+              @scale={{yScale}}
+              @duration={{duration}}
+              @tickSizeOuter={{0}}
+              @transform={{template "translate({0} 0)" paddingLeft}}
+            />
+          </Frame.Layer>
+        {{/let}}
+      {{/let}}
+    </DataGraphic::Frame>
+  {{/demo.example}}
+
+  {{demo.snippet "data-graphic-bars-demo.hbs" label="template.hbs" language="hbs"}}
+
+  {{demo.snippet "data-graphic-bars-controller.js" label="controller.js" language="js" }}
+{{/docs-demo}}

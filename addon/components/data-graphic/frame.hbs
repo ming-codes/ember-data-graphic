@@ -1,0 +1,7 @@
+<div class="data-graphic__frame" {{did-insert this.didInsert}} ...attributes>
+  {{#if this.ready}}
+    {{yield
+      (compute this.didUpdateFrameModel (component "data-graphic/layer" width=this.model.width height=this.model.height scheduler=this.scheduler elapsed=this.elapsed interaction=this.interaction))
+    }}
+  {{/if}}
+</div>

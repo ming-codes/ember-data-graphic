@@ -1,0 +1,32 @@
+{{#docs-demo as |demo|}}
+  {{#demo.example name="data-graphic-sankey-demo.hbs"}}
+    <DataGraphic::Frame class="w-full h-64" as |Frame|>
+      <Frame.Layer @renderer="svg" as |SVG|>
+        {{#let (compute (compute this.sankey.size (array Frame.WIDTH Frame.HEIGHT)) this.data) as |sankey|}}
+          <SVG.Mark
+            @type="rect"
+            @orient="vertical"
+            @data={{sankey.nodes}}
+            @x1={{field "x0"}}
+            @x2={{field "x1"}}
+            @y1={{field "y0"}}
+            @y2={{field "y1"}}
+            @fill="steelblue"
+          />
+
+          <SVG.Mark
+            @type="path"
+            @data={{sankey.links}}
+            @d={{this.link}}
+            @stroke="tomato"
+            @strokeWidth={{field "width"}}
+          />
+        {{/let}}
+      </Frame.Layer>
+    </DataGraphic::Frame>
+  {{/demo.example}}
+
+  {{demo.snippet "data-graphic-sankey-demo.hbs" label="template.hbs" language="hbs"}}
+
+  {{demo.snippet "data-graphic-sankey-controller.js" label="controller.js" language="js" }}
+{{/docs-demo}}

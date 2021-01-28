@@ -1,0 +1,70 @@
+{{!managed-motion-node renderer=this.renderer}}
+
+{{component @mark
+  type="line"
+  data=(array this.span)
+  key="@index"
+  transform=@transform
+  stroke=this.stroke
+  strokeWidth=this.strokeWidth
+  x1=this.domain.x1
+  x2=this.domain.x2
+  y1=this.domain.y1
+  y2=this.domain.y2
+}}
+
+{{component @mark
+  type="line"
+  data=this.data
+  key="@identity"
+  transform=@transform
+  duration=this.duration
+  easing=this.easing
+  stroke=this.stroke
+  strokeWidth=this.strokeWidth
+  opacity="1"
+  x1=this.tickInner.x1
+  x2=this.tickInner.x2
+  y1=this.tickInner.y1
+  y2=this.tickInner.y2
+  onEnter=this.onTickEnter
+  onExit=(hash opacity=0.0001)
+}}
+
+{{component @mark
+  type="line"
+  data=this.span
+  key="@identity"
+  transform=@transform
+  duration=this.duration
+  easing=this.easing
+  stroke=this.stroke
+  strokeWidth=this.strokeWidth
+  opacity="1"
+  x1=this.tickOuter.x1
+  x2=this.tickOuter.x2
+  y1=this.tickOuter.y1
+  y2=this.tickOuter.y2
+}}
+
+{{component @mark
+  type="text"
+  data=this.data
+  key="@identity"
+  transform=@transform
+  duration=this.duration
+  easing=this.easing
+  fontSize=@fontSize
+  fontFamily=@fontFamily
+  stroke=this.stroke
+  opacity="1"
+  fill=this.stroke
+  textAnchor=this.tickText.textAnchor
+  textContent=this.tickText.textContent
+  strokeWidth=(or @strokeWidth "0")
+  x=this.tickText.x
+  y=this.tickText.y
+  dy=this.tickText.dy
+  onEnter=this.onTickEnter
+  onExit=(hash opacity=0.0001)
+}}

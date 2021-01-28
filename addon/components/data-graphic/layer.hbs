@@ -1,0 +1,33 @@
+{{#let (component "data-graphic/mark" renderer=this.renderer scheduler=@scheduler interaction=@interaction) as |Mark|}}
+  {{#let (component "data-graphic/axis" renderer=this.renderer mark=Mark) as |Axis|}}
+    {{~#if this.shouldRenderCanvas~}}
+      <canvas class="data-graphic__layer" width={{@width}} height={{@height}} {{did-insert this.setContextFrom}} ...attributes>
+        {{#if this.context}}
+          {{yield
+            (hash
+              Mark=Mark
+              Axis=Axis
+            )
+          }}
+        {{/if}}
+      </canvas>
+    {{~else if this.shouldRenderSVG~}}
+      <svg class="data-graphic__layer" width={{@width}} height={{@height}} viewBox="0 0 {{@width}} {{@height}}" {{did-insert this.setContextFrom}} ...attributes>
+        {{#if this.context}}
+          {{yield
+            (hash
+              Mark=Mark
+              Axis=Axis
+            )
+          }}
+        {{/if}}
+      </svg>
+    {{~else~}}
+      <div class="data-graphic__layer" {{did-insert this.setContextFrom}} ...attributes>
+        {{#if this.context}}
+          {{yield}}
+        {{/if}}
+      </div>
+    {{~/if~}}
+  {{/let}}
+{{/let}}

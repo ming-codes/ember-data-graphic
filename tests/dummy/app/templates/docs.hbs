@@ -1,0 +1,21 @@
+{{#docs-viewer as |viewer|}}
+  {{#viewer.nav as |nav|}}
+    {{nav.section "Introduction"}}
+
+    {{nav.item "Core Concepts" "docs.index"}}
+
+    {{nav.section "Examples"}}
+
+    {{nav.item "Bar Charts" "docs.bar-charts"}}
+    {{nav.item "Line Charts" "docs.line-charts"}}
+    {{!nav.item "Area Charts" "docs.area-charts"}}
+    {{!nav.item "Scatter Plot" "docs.scatter-plot"}}
+    {{!nav.item "Bubble Chart" "docs.scatter-plot"}}
+    {{!nav.item "Sunburst" "docs.sunburst"}}
+    {{nav.item "Sankey Diagram" "docs.sankey"}}
+  {{/viewer.nav}}
+
+  {{#viewer.main}}
+    {{outlet}}
+  {{/viewer.main}}
+{{/docs-viewer}}

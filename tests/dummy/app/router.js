@@ -1,9 +1,22 @@
-import EmberRouter from '@ember/routing/router';
-import config from 'dummy/config/environment';
+import AddonDocsRouter, { docsRoute } from 'ember-cli-addon-docs/router';
+import config from './config/environment';
 
-export default class Router extends EmberRouter {
-  location = config.locationType;
-  rootURL = config.rootURL;
-}
+const Router = AddonDocsRouter.extend({
+  location: config.locationType,
+  rootURL: config.rootURL,
+});
 
-Router.map(function () {});
+Router.map(function() {
+  docsRoute(this, function() {
+    this.route('bar-charts');
+    this.route('line-charts');
+    this.route('area-charts');
+    this.route('scatter-plot');
+    this.route('bubble-chart');
+    this.route('sunburst');
+    this.route('sankey');
+    this.route('parallel-coordinates');
+  });
+});
+
+export default Router;

@@ -1,0 +1,2 @@
+{{page-title "BubbleChart"}}
+{{outlet}}
